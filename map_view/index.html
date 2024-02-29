@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Empty HTML Page</title>
+  <style>
+    #map{width: 100%; height: 100%; position: absolute;}
+    #map {float:left;}
+
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+<script>
+// google map section
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 15,
+    center: {lat: 35.9099, lng: 14.4498}
+  });
+  
+  // modified to pass two variables, both map instances. 
+  setMarkers(map);
+}
+
+// Data for the markers consisting of a name, a LatLng and a zIndex for the
+// order in which these markers should display on top of each other.
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const geos = urlParams.get('geos');
+  // [
+  // ['Property 3', 35.9065598, 14.4502898, 1],
+  // ['Bondi Beach', 35.9099206, 14.4498855, 1],
+  // ['Coogee Beach', 35.9159643, 14.4484053, 1]
+  // ];
+
+function setMarkers(map) {
+  // Adds markers to the map.
+
+  // Marker sizes are expressed as a Size of X,Y where the origin of the image
+  // (0,0) is located in the top left of the image.
+
+  // Origins, anchor positions and coordinates of the marker increase in the X
+  // direction to the right and in the Y direction down.
+  var image = {
+    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+    // This marker is 20 pixels wide by 32 pixels high.
+    size: new google.maps.Size(20, 32),
+    // The origin for this image is (0, 0).
+    origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+    anchor: new google.maps.Point(0, 32)
+  };
+  // Shapes define the clickable region of the icon. The type defines an HTML
+  // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+  // The final coordinate closes the poly by connecting to the first coordinate.
+  var shape = {
+    coords: [1, 1, 1, 20, 18, 20, 18, 1],
+    type: 'poly'
+  };
+  for (var i = 0; i < geos.length; i++) {
+    var geo = geos[i];
+    var marker = new google.maps.Marker({
+      position: {lat: geo[1], lng: geo[2]},
+      map: map,
+      icon: image,
+      shape: shape,
+      title: geo[0],
+      zIndex: geo[3],
+      ref_index: i
+    });
+    (function(marker) {
+        google.maps.event.addListener(marker, 'click', function() {
+            console.log(marker.ref_index);
+            window.open(geos[marker.ref_index][4], "_blank");
+        });
+    })(marker);
+
+  } 
+} 
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWAoxTVd_zUi11jJe9TEvu6MUoOfzTerE&callback=initMap"></script>
+</body>
+</html>
+
+

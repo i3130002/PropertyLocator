@@ -1,0 +1,26 @@
+{
+  "name": "Hello Extensions",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "hello.html",
+    "default_icon": "hello_extensions.png"
+  },
+  "host_permissions": [
+    "https://dubai.dubizzle.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions":[
+    "webRequest",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://dubai.dubizzle.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}

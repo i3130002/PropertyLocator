@@ -16,11 +16,5 @@
   "permissions":[
     "webRequest",
     "activeTab"
-  ],
-  "content_scripts": [
-    {
-      "matches": ["https://dubai.dubizzle.com/*"],
-      "js": ["content.js"]
-    }
   ]
 }

@@ -17,11 +17,10 @@ function handler() {
 }
 
 function webrequest() {
-    console.log('popup.webrequest');
     let url = "https://dubai.dubizzle.com/en/property-for-rent/rooms-for-rent-flatmates/"
     
     chrome.runtime.sendMessage({ action: 'fetchData', url: url }, (response) => {
-        console.log('popup.webrequest Data received:', response);
+        console.log(response);
         // Process the data received from the background script
     });
     

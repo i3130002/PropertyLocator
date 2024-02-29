@@ -3,11 +3,9 @@
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'fetchData') {
-    console.log("Background.addListener", "fetchData", message, sender)
     fetch(message.url, {
       method: 'GET'
     }).then(res => {
-      console.log("bg.fetch.res:", res)
       return res.text();
     }).then(res => {
       sendResponse(res);

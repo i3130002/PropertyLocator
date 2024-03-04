@@ -23,9 +23,10 @@
 
   <script>
     var editorExtensionId = "cnapcgckldopdofeilibaomjkokjealg";
-
+    var geos= []
     function on_location_data(response) {
-      console.log("on_locaiton_data", response.geos)
+      geos = response.geos
+      console.log("on_locaiton_data", geos)
 
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,

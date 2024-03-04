@@ -57,17 +57,17 @@
       };
       for (var i = 0; i < geos.length; i++) {
         var geo = geos[i];
-        console.log(geo)
+        // console.log(geo)
         let marker_data = {
-          position: { lat: geo.latitude, lng: geo.longitude },
+          position: { lat: geo.longitude, lng: geo.latitude },
           map: map,
           icon: image,
           shape: shape,
-          title: geo.price + " " + geo.name + " " + geo.description,
+          title: geo.price  + " ", // + geo.name,  + " " + geo.description
           zIndex: 1,
           ref_index: i
         }
-        console.log(marker_data)
+        // console.log(marker_data)
         var marker = new google.maps.Marker(marker_data);
         (function (marker) {
           google.maps.event.addListener(marker, 'click', function () {

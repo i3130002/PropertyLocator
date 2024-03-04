@@ -57,7 +57,8 @@
       };
       for (var i = 0; i < geos.length; i++) {
         var geo = geos[i];
-        var marker = new google.maps.Marker({
+        console.log(geo)
+        let marker_data = {
           position: { lat: geo.latitude, lng: geo.longitude },
           map: map,
           icon: image,
@@ -65,11 +66,13 @@
           title: geo.price + " " + geo.name + " " + geo.description,
           zIndex: 1,
           ref_index: i
-        });
+        }
+        console.log(marker_data)
+        var marker = new google.maps.Marker(marker_data);
         (function (marker) {
           google.maps.event.addListener(marker, 'click', function () {
             console.log(marker.ref_index);
-            window.open(geos[marker.ref_index][4], "_blank");
+            window.open(geos[marker.ref_index].url, "_blank");
           });
         })(marker);
 

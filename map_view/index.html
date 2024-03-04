@@ -37,10 +37,13 @@
 
 
     function initMap() {
+      console.log("initMap")
       chrome.runtime.sendMessage(editorExtensionId, "Get me the goes",
       function (response) {
-        on_location_data(response)
+        console.log("initMap before setTimeout")
+        setTimeout(on_location_data(response), 2000)
       });
+      console.log("chrome.runtime.sendMessage sent")
     }
 
     // Data for the markers consisting of a name, a LatLng and a zIndex for the

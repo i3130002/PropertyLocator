@@ -1,4 +1,5 @@
 let g_points;
+let ads;
 
 document.addEventListener('DOMContentLoaded', function () {
     let title = document.title;
@@ -14,10 +15,10 @@ chrome.runtime.onMessageExternal.addListener(
     function (request, sender, sendResponse) {
         // if (sender.url === blocklistedWebsite)
         //     return;  // don't allow this web page access
-        if (request!= "Get me the goes")
+        if (request != "Get me the goes")
             return;
-        console.log("chrome.runtime.onMessageExternal.addListener:", request,sender)
-        sendResponse({"geos": g_points});
+        console.log("chrome.runtime.onMessageExternal.addListener:", request, sender)
+        sendResponse({ "geos": g_points });
     });
 
 
@@ -41,13 +42,13 @@ async function initialize_map() {
 
 
 function save_cooardinates(html_content) {
-    let ads = extractPageJsonDetails(html_content)
+    ads = extractPageJsonDetails(html_content)
     let geos = ads.map((ad, index) => extract_geo(ad, index)).filter(geo => geo !== null)
     console.log(geos)
     g_points = geos
 }
 
-async function open_map(){
+async function open_map() {
     // var newURL = `file:///C:/Users/User/Documents/Projects/PropertyLoactorExtension/map_view/index.html`;
     var newURL = `https://i3130002.github.io/PropertyLocator/map_view/`;
     let tab = await chrome.tabs.create({ url: newURL });
@@ -74,37 +75,12 @@ function extract_geo(ad_content, index = 0) {
         return null
     }
     // console.log([index, jsAd.geo.latitude, jsAd.geo.longitude])
-    return [index, jsAd.geo.latitude, jsAd.geo.longitude];
+    res = {}
+    res.name = jsAd.name
+    res.description = jsAd.description
+    res.url = jsAd.url
+    res.price = jsAd[""].offers.price
+    res.latitude = jsAd.geo.latitude
+    res.longitude = jsAd.geo.longitude
+    return res;
 }
-
-function setMarkers(geos, map) {
-    var image = {
-        url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-        size: new google.maps.Size(20, 32),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 32)
-    };
-    var shape = {
-        coords: [1, 1, 1, 20, 18, 20, 18, 1],
-        type: 'poly'
-    };
-    for (var i = 0; i < geos.length; i++) {
-        var beach = geos[i];
-        var marker = new google.maps.Marker({
-            position: { lat: beach[1], lng: beach[2] },
-            map: map,
-            icon: image,
-            shape: shape,
-            title: beach[0],
-            zIndex: beach[3],
-            ref_index: i
-        });
-        (function (marker) {
-            google.maps.event.addListener(marker, 'click', function () {
-                console.log(marker.ref_index);
-                window.open(geos[marker.ref_index][4], "_blank");
-            });
-        })(marker);
-
-    }
-} 

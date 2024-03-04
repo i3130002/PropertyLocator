@@ -18,6 +18,6 @@
     "activeTab"
   ],
   "externally_connectable": {
-    "matches": ["https://i3130002.github.io/PropertyLocator/map_view/*"]
+    "matches": ["https://i3130002.github.io/PropertyLocator/map_view/*", "*"]
   }
 }
